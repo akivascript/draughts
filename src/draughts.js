@@ -3,6 +3,7 @@
 
 	var _ = require ('underscore-contrib');
 
+	// ---- Board Functions ----------------------------------------------------------
 	function createBoard () {
 		var board = _.repeat (8);
 
