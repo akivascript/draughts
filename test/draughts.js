@@ -62,6 +62,45 @@
 				expect (p2res, 'Player 2\'s pieces are not set up properly').to.be.true;
 			});
 		});
+
+		describe ('player', function () {
+			it ('should be able to move piece one space forward', function () {
+				board = draughts.setupBoard (board);
+
+				var processMove = function (player) {
+					board = draughts.movePiece (board, player, startRow, startCol);
+					startRes = examineSpace (board, startRow, startCol);
+					destRes = examineSpace (board, destRow, destCol);
+
+					expect (startRes, 'Player ' + player + '\'s piece was not removed from ' +
+									'its starting point.').to.equal (0);
+					expect (destRes, 'Player ' + player + '\'s piece did not end up at its ' +
+									'destination.').to.equal (player);
+				};
+
+				var startRow = 5;
+				var startCol = 0;
+				var destRow = 4;
+				var destCol = 0;
+				var startRes;
+				var destRes;
+
+				processMove (player1);
+
+				// This second test ensures that the default forward move goes in
+				// the proper direction for both players
+				board = draughts.setupBoard (draughts.createBoard ());
+
+				startRow = 2;
+				startCol = 1;
+				destRow = 3;
+				destCol = 1;
+				startRes = 0;
+				destRes = 0;
+
+				processMove (player2);
+			});
+		});
 	});
 
 	// ---- Utility functions --------------------------------------------------------
