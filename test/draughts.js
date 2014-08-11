@@ -113,7 +113,7 @@
 						board = draughts.placePiece (board, player1, (startRow + 1), (startCol + 1));
 					}
 
-					board = jumpPiece (board, startRow, startCol);
+					board = draughts.jumpPiece (board, player, startRow, startCol, dir);
 					startRes = examineSpace (board, startRow, startCol);
 					destRes = examineSpace (board, destRow, destCol);
 

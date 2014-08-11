@@ -4,6 +4,7 @@
 	var _ = require ('underscore-contrib');
 	var player1 = 1;
 	var player1rows = [5, 6, 7];
+	var player2 = 2;
 	var player2rows = [0, 1, 2];
 
 	// ---- Board Functions ----------------------------------------------------------
@@ -39,38 +40,6 @@
 		player =2;
 		_.each(player2rows, setupPieces);
 
-		return b;
-	}
-
-	function movePiece (board, player, row, col) {
-		var b = board;
-		var dir;
-
-		if (player === player1) { dir = -1; } else { dir = 1; }
-
-		var startSpace = examineSpace (board, row, col);
-		var destRow = row + dir;
-		
-		if (startSpace !== player) {
-			throw new Error ('Player ' + player + ' does not have a piece at [' +
-											 row + '][' + col + ']');
-		}
-
-		if (!isLegalSpace (b, destRow, col)) {
-			throw new Error ('Player ' + player + ' attempted to move a piece off ' +
-											 'the board to [' + destRow + '][' + col + ']');
-		}
-
-		var destSpace = examineSpace (board, destRow, col);
-
-		if (destSpace !== 0) {
-			throw new Error ('The destination space [' + destRow + '][' + col + 
-											 '] is already occupied.');
-		}
-
-		b = removePiece (b, row, col);
-		b = placePiece (b, player, destRow, col);
-		
 		return b;
 	}
 
@@ -112,6 +81,95 @@
 		return false;
 	}
 
+	// ---- Player Functions ---------------------------------------------------------
+	function movePiece (board, player, row, col) {
+		var b = board;
+		var dir;
+
+		if (player === player1) { dir = -1; } else { dir = 1; }
+
+		var startSpace = examineSpace (board, row, col);
+		var destRow = row + dir;
+		
+		if (startSpace !== player) {
+			throw new Error ('Player ' + player + ' does not have a piece at [' +
+											 row + '][' + col + ']');
+		}
+
+		if (!isLegalSpace (b, destRow, col)) {
+			throw new Error ('Player ' + player + ' attempted to move a piece off ' +
+											 'the board to [' + destRow + '][' + col + ']');
+		}
+
+		var destSpace = examineSpace (board, destRow, col);
+
+		if (destSpace !== 0) {
+			throw new Error ('The destination space [' + destRow + '][' + col + 
+											 '] is already occupied.');
+		}
+
+		b = removePiece (b, row, col);
+		b = placePiece (b, player, destRow, col);
+		
+		return b;
+	}
+
+	function jumpPiece (board, player, row, col, dir) {
+		var destRow;
+		var destCol;
+		var jumpRow;
+		var jumpCol;
+
+		if (player === player1) {
+			jumpRow = row - 1;
+			destRow = row - 2;
+
+			if (dir === 'left') {
+				jumpCol = col - 1;
+				destCol = col - 2;
+			} else {
+				jumpCol = col + 1;
+				destCol = col + 2; }
+		} else {
+			jumpRow = row + 1;
+			destRow = row + 2;
+
+			if (dir === 'left') {
+				jumpCol = col + 1;
+				destCol = col + 2;
+			} else {
+				jumpCol = col - 1;
+				destCol = col - 2;
+			}
+		}
+
+		var b = board;
+
+		if (!isLegalSpace (b, destRow, destCol)) {
+			var size = b.length;
+			
+			throw new Error ('The destination space [' + destRow + '][' + destCol +
+											 '] is beyond the boundaries of the board size of ' +
+											 size + 'x' + size);
+		}
+
+		var jumpSpace = examineSpace (board, jumpRow, jumpCol);
+
+		if ((player === player1 && jumpSpace !== player2) ||
+				(player === player2 && jumpSpace !== player1)) {
+			throw new Error ('Player ' + player + ' attempted to jump from [' + row +
+											 '][' + col + '] to [' + destRow + '][' + destCol +
+											 '] when there was no opponent piece to jump over at [' +
+											 jumpRow + '][' + jumpCol + ']');
+		}
+
+		b = removePiece (board, row, col);
+		b = removePiece (board, jumpRow, jumpCol);
+		b = placePiece (b, player, destRow, destCol);
+
+		return b;
+	}
+
 	// ---- Utility Functions --------------------------------------------------------
 	function isEven (num) {
 		return num % 2 === 0;
@@ -125,4 +183,6 @@
 	module.exports.createBoard = createBoard;
 	module.exports.setupBoard = setupBoard;
 	module.exports.movePiece = movePiece;
+	module.exports.placePiece = placePiece;
+	module.exports.jumpPiece = jumpPiece;
 } ());
