@@ -101,6 +101,50 @@
 
 				processMove (player2);
 			});
+
+	// -------------------------------------------------------------------------------
+			it ('should be able to jump a piece diagonally', function () {
+				board = draughts.setupBoard (board);
+
+				var processMove = function (player) {
+					if (player === player1) {
+						board = draughts.placePiece (board, player2, (startRow - 1), (startCol - 1));
+					} else {
+						board = draughts.placePiece (board, player1, (startRow + 1), (startCol + 1));
+					}
+
+					board = jumpPiece (board, startRow, startCol);
+					startRes = examineSpace (board, startRow, startCol);
+					destRes = examineSpace (board, destRow, destCol);
+
+					expect (startRes, 'Player ' + player + '\'s piece was note removed ' +
+									'its starting point').to.equal (0);
+					expect (destRes, 'Player ' + player + '\'s piece did not end up at ' +
+									'its expected destination').to.equal (player);
+				};
+
+				var startRow = 5;
+				var startCol = 2;
+				var destRow = 3;
+				var destCol = 0;
+				var dir = 'left';
+				var startRes;
+				var destRes;
+
+				processMove (player1);
+
+				startRow = 2;
+				startCol = 2;
+				destRow = 4;
+				destCol = 4;
+				dir = 'left';
+				startRes = 0;
+				destRes = 0;
+
+				board = draughts.setupBoard (draughts.createBoard ());
+				
+				processMove (player2);
+			});			
 		});
 	});
 
