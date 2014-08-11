@@ -181,6 +181,29 @@
 																		'piece off the board to [' + (startRow - 1) +
 																		'][' + startCol + ']');
 			});
+
+	// -------------------------------------------------------------------------------
+			it ('should prevent a jump if there is no opponent piece to jump over', function () {
+				board = draughts.setupBoard (board);
+
+				var startRow = 5;
+				var startCol = 2;
+				var destRow = 3;
+				var destCol = 4;
+				var jumpRow = 4;
+				var jumpCol = 3;
+				var dir = 'right';
+
+				var moveFn = function () {
+					draughts.jumpPiece (board, player1, startRow, startCol, dir);
+				};
+
+				expect (moveFn).to.throw ('Player ' + player1 + ' attempted to jump ' +
+																	'from [' + startRow + '][' + startCol + '] to [' +
+																	destRow + '][' + destCol + '] when there ' +
+																	'was no opponent piece to jump over at [' +
+																	jumpRow + '][' + jumpCol + ']');
+			});
 		});
 	});
 
