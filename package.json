@@ -1,0 +1,36 @@
+{
+  "name": "draughts",
+  "version": "0.0.1",
+  "description": "An API for playing a game of draughts",
+  "main": "draughts.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akivaschoen/draughts.git"
+  },
+  "author": "Akiva R. Schoen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akivaschoen/draughts/issues"
+  },
+  "homepage": "https://github.com/akivaschoen/draughts",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha-cli": "^1.9.0",
+    "load-grunt-tasks": "^0.6.0",
+    "mocha": "^1.21.4"
+  },
+  "dependencies": {
+    "underscore": "^1.6.0",
+    "underscore-contrib": "^0.3.0"
+  }
+}
