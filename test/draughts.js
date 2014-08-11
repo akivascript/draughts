@@ -146,6 +146,25 @@
 				processMove (player2);
 			});			
 		});
+
+	// -------------------------------------------------------------------------------
+		describe ('rules', function () {
+			it ('should prevent a forward move if destination space is occupied', function () {
+				board = draughts.setupBoard (board);
+				board = draughts.placePiece (board, player2, 4, 2);
+
+				var startRow = 5;
+				var startCol = 2;
+				var destRow = 4;
+				var destCol = 2;
+
+				var moveFn = function () {
+					draughts.movePiece (board, player1, startRow, startCol); };
+
+				expect (moveFn).to.throw ('The destination space [' + destRow + '][' +
+																	destCol + '] is already occupied.');
+			});
+		});
 	});
 
 	// ---- Utility functions --------------------------------------------------------
