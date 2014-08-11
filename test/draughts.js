@@ -1,6 +1,7 @@
 (function () {
 	'use strict';
 
+	var _ = require ('underscore-contrib');
 	var expect = require ('chai').expect;
 	var draughts = require ('../src/draughts.js');
 	var player1 = 1;
@@ -21,7 +22,6 @@
 				expect (board, 'The board isn\'t 8 columns in width').to.have.length (8);
 				expect (board [0], 'The board isn\'t 8 rows in height').to.have.length (8);
 			});
-		});
 		
 	// -------------------------------------------------------------------------------
 			it ('should set up board properly', function () {
@@ -61,6 +61,7 @@
 				expect (p1res, 'Player 1\'s pieces are not set up properly').to.be.true;
 				expect (p2res, 'Player 2\'s pieces are not set up properly').to.be.true;
 			});
+		});
 	});
 
 	// ---- Utility functions --------------------------------------------------------
