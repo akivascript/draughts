@@ -204,9 +204,33 @@
 																	'was no opponent piece to jump over at [' +
 																	jumpRow + '][' + jumpCol + ']');
 			});
+
+	// -------------------------------------------------------------------------------
+			it ('should prevent a jump if the destination space is off the board', function () {
+			board = draughts.setupBoard (board);
+
+			var startRow = 5;
+			var startCol = 7;
+			var destRow = 3;
+			var destCol = 9;
+			var jumpRow = 4;
+			var jumpCol = 6;
+			var dir = 'right';
+			var size = board.length;
+
+			board = draughts.placePiece (board, player2, jumpRow, jumpCol);
+
+			var moveFn = function () {
+				draughts.jumpPiece (board, player1, startRow, startCol, dir);
+			};
+
+			expect (moveFn).to.throw ('The destination space [' + destRow + '][' +
+																destCol + '] is beyond the boundaries of ' +
+																'the board size of ' + size + 'x' + size);
+			});
 		});
 	});
-
+	
 	// ---- Utility functions --------------------------------------------------------
 	function isEven (num) {
 		return num % 2 === 0;
