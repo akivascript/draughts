@@ -63,6 +63,7 @@
 			});
 		});
 
+	// -------------------------------------------------------------------------------
 		describe ('player', function () {
 			it ('should be able to move piece one space forward', function () {
 				board = draughts.setupBoard (board);

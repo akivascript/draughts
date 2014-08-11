@@ -2,6 +2,7 @@
 	'use strict';
 
 	var _ = require ('underscore-contrib');
+	var player1 = 1;
 	var player1rows = [5, 6, 7];
 	var player2rows = [0, 1, 2];
 
@@ -41,6 +42,38 @@
 		return b;
 	}
 
+	function movePiece (board, player, row, col) {
+		var b = board;
+		var dir;
+
+		if (player === player1) { dir = -1; } else { dir = 1; }
+
+		var startSpace = examineSpace (board, row, col);
+		var destRow = row + dir;
+		
+		if (startSpace !== player) {
+			throw new Error ('Player ' + player + ' does not have a piece at [' +
+											 row + '][' + col + ']');
+		}
+
+		if (!isLegalSpace (b, destRow, col)) {
+			throw new Error ('Player ' + player + ' attempted to move a piece off ' +
+											 'the board to [' + destRow + '][' + col + ']');
+		}
+
+		var destSpace = examineSpace (board, destRow, col);
+
+		if (destSpace !== 0) {
+			throw new Error ('The destination space [' + destRow + '][' + col + 
+											 '] is already occupied.');
+		}
+
+		b = removePiece (b, row, col);
+		b = placePiece (b, player, destRow, col);
+		
+		return b;
+	}
+
 	function placePiece (board, player, row, col) {
 		var b = board;
 		var size = board.length;
@@ -54,6 +87,18 @@
 		b [row][col] = player;
 
 		return b;
+	}
+
+	function removePiece (board, row, col) {
+		var b = board;
+
+		b [row][col] = 0;
+		
+		return b;
+	}
+
+	function examineSpace (board, row, col) {
+		return board [row][col];
 	}
 
 	function isLegalSpace (board, row, col) {
@@ -79,4 +124,5 @@
 	// ---- Exports ------------------------------------------------------------------
 	module.exports.createBoard = createBoard;
 	module.exports.setupBoard = setupBoard;
+	module.exports.movePiece = movePiece;
 } ());
