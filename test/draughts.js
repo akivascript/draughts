@@ -164,6 +164,23 @@
 				expect (moveFn).to.throw ('The destination space [' + destRow + '][' +
 																	destCol + '] is already occupied.');
 			});
+
+	// -------------------------------------------------------------------------------
+			it ('should prevent a forward move if destination space is off the board', function () {
+				board = draughts.setupBoard (board);
+
+				var startRow = 0;
+				var startCol = 0;
+
+				board = draughts.placePiece (board, player1, startRow, startCol);
+
+				var moveFn = function () {
+					draughts.movePiece (board, player1, startRow, startCol); };
+
+					expect (moveFn).to.throw ('Player ' + player1 + ' attempted to move a ' +
+																		'piece off the board to [' + (startRow - 1) +
+																		'][' + startCol + ']');
+			});
 		});
 	});
 
