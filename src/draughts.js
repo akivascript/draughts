@@ -16,17 +16,14 @@
 		var col;
 		var player;
 		var setupPieces = function (row) {
-			col = 0;
-
-			// TODO: Rework this to be more functional; eliminate the loop
 			if (isEven (row)) {
-				for (col = 1; col < 8; col = col + 2) {
-					if (isOdd (col)) { placePiece (board, player, row, col); }
-				}
+				col = 1;
 			} else {
-				for (col = 0; col < 8; col = col + 2) {
-					if (isEven (col)) { placePiece (board, player, row, col); }
-				}
+				col = 0;
+			}
+
+			for (; col < 8; col = col + 2) {
+				placePiece (board, player, row, col);
 			}
 		};
 
@@ -170,9 +167,9 @@
 		return num % 2 === 0;
 	}
 
-	function isOdd (num) {
-		return !isEven (num);
-	}
+//	function isOdd (num) {
+//		return !isEven (num);
+//	}
 
 	// ---- Exports ------------------------------------------------------------------
 	module.exports.createBoard = createBoard;
