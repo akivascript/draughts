@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	var _ = require ('underscore-contrib');
+	var _ = require ('lodash-contrib');
 	var expect = require ('chai').expect;
 	var draughts = require ('../src/draughts.js');
 	var player1 = 1;

@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	var _ = require ('underscore-contrib');
+	var _ = require ('lodash-contrib');
 	var player1 = 1;
 	var player1rows = [5, 6, 7];
 	var player2 = 2;
@@ -22,9 +22,9 @@
 				col = 0;
 			}
 
-			for (; col < 8; col = col + 2) {
-				placePiece (board, player, row, col);
-			}
+			var f = _.partial (placePiece, board, player, row);
+
+			return _.map (_.range (col, 8, 2), function (c) { f (c); });
 		};
 
 		player = 1;
