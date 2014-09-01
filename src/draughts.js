@@ -13,9 +13,12 @@
 	}
 
 	function setupBoard (board) {
+		var col;
+		var player;
 		var setupPieces = function (row) {
-			var col = 0;
+			col = 0;
 
+			// TODO: Rework this to be more functional; eliminate the loop
 			if (isEven (row)) {
 				for (col = 1; col < 8; col = col + 2) {
 					if (isOdd (col)) { placePiece (board, player, row, col); }
@@ -27,7 +30,7 @@
 			}
 		};
 
-		var player = 1;
+		player = 1;
 		_.each (player1rows, setupPieces);
 
 		player = 2;
@@ -74,11 +77,14 @@
 	// ---- Player Functions ---------------------------------------------------------
 	function movePiece (board, player, row, col) {
 		var dir;
+		var startSpace;
+		var destRow;
+		var destSpace;
 
 		if (player === player1) { dir = -1; } else { dir = 1; }
 
-		var startSpace = examineSpace (board, row, col);
-		var destRow = row + dir;
+		startSpace = examineSpace (board, row, col);
+		destRow = row + dir;
 		
 		if (startSpace !== player) {
 			throw new Error ('Player ' + player + ' does not have a piece at [' +
@@ -90,7 +96,7 @@
 											 'the board to [' + destRow + '][' + col + ']');
 		}
 
-		var destSpace = examineSpace (board, destRow, col);
+		destSpace = examineSpace (board, destRow, col);
 
 		if (destSpace !== 0) {
 			throw new Error ('The destination space [' + destRow + '][' + col + 
@@ -108,6 +114,8 @@
 		var destCol;
 		var jumpRow;
 		var jumpCol;
+		var jumpSpace;
+		var size;
 
 		if (player === player1) {
 			jumpRow = row - 1;
@@ -133,14 +141,14 @@
 		}
 
 		if (!isLegalSpace (board, destRow, destCol)) {
-			var size = board.length;
+			size = board.length;
 			
 			throw new Error ('The destination space [' + destRow + '][' + destCol +
 											 '] is beyond the boundaries of the board size of ' +
 											 size + 'x' + size);
 		}
 
-		var jumpSpace = examineSpace (board, jumpRow, jumpCol);
+		jumpSpace = examineSpace (board, jumpRow, jumpCol);
 
 		if ((player === player1 && jumpSpace !== player2) ||
 				(player === player2 && jumpSpace !== player1)) {
