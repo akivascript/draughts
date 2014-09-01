@@ -28,35 +28,34 @@
 				board = draughts.setupBoard (board);
 
 				var walkBoard = function (player, row) {
-					var col;
 					var currSpace;
 					var res = true;
-
-					for (col = 0; col < 8; col++) {
+					var checkSpace = function (col) {
 						currSpace = examineSpace (board, row, col);
+
 
 						if (isEven (row) &&
 								((isOdd (col) && currSpace === player) ||
 								 (isEven (col) && currSpace === 0))) {
-							continue;
+							res = true;
 						} else if (isOdd (row) &&
 											 ((isEven (col) && currSpace === player) ||
 												(isOdd (col) && currSpace === 0))) {
-							continue;
+							res = true;
 						} else {
 							res = false;
-
-							break;
 						}
-					}
 
-					return res;
+						return res;
+					};
+
+					return _.reduce (_.times (8, function (n) { return checkSpace (n); }));
 				};
 
-				var p1res = _.reduce(player1rows, function (res, row) {
-					return walkBoard (player1, row); }, true);
-				var p2res = _.reduce(player2rows, function (res, row) {
-					return walkBoard (player2, row); }, true);
+				var p1res = _.reduce (_.map (player1rows, function (row) {
+					return walkBoard (player1, row); }));
+				var p2res = _.reduce (_.map (player2rows, function (row) {
+					return walkBoard (player2, row); }));
 
 				expect (p1res, 'Player 1\'s pieces are not set up properly').to.be.true;
 				expect (p2res, 'Player 2\'s pieces are not set up properly').to.be.true;
