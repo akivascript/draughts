@@ -9,19 +9,13 @@
 
 	// ---- Board Functions ----------------------------------------------------------
 	function createBoard () {
-		var board = _.repeat (8);
-
-		_.each (board, function (el, idx, arr) {
-			board [idx] = _.repeat (8, 0);
-		});
-
-		return board;
+		return _.map (_.repeat (8), function () { return _.repeat (8, 0); });
 	}
 
 	function setupBoard (board) {
 		var b = board;
 		var setupPieces = function (row) {
-			var col = 0;
+		var col = 0;
 
 			if (isEven (row)) {
 				for (col = 1; col < 8; col = col + 2) {
@@ -35,10 +29,10 @@
 		};
 
 		var player = 1;
-		_.each(player1rows, setupPieces);
+		_.each (player1rows, setupPieces);
 
 		player =2;
-		_.each(player2rows, setupPieces);
+		_.each (player2rows, setupPieces);
 
 		return b;
 	}
