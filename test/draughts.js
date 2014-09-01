@@ -33,6 +33,7 @@
 					var checkSpace = function (col) {
 						currSpace = examineSpace (board, row, col);
 
+
 						if (isEven (row) &&
 								((isOdd (col) && currSpace === player) ||
 								 (isEven (col) && currSpace === 0))) {
